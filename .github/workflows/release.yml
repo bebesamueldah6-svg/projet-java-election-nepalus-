@@ -1,0 +1,39 @@
+# Construit le .jar et le publie dans une « Release » GitHub
+# à chaque étiquette de version poussée (git tag v1.0 puis git push origin v1.0).
+name: Publier le .jar
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: election-nepalus
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: election-nepalus/pom.xml
+
+      - name: Construire le .jar (avec les tests)
+        run: |
+          chmod +x mvnw
+          ./mvnw -B clean package
+
+      - name: Créer la Release avec le .jar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" target/election-nepalus.jar \
+            --title "Élection législative de Nepalus $GITHUB_REF_NAME" \
+            --notes "Téléchargez election-nepalus.jar ci-dessous, puis lancez-le avec : java -jar election-nepalus.jar (Java 17 ou plus récent)."

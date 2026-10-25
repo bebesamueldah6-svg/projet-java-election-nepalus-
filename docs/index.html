@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Élection législative de Nepalus</title>
+<meta name="description" content="Simulation du traitement d'une élection législative : application JavaFX réalisée dans le cadre du cours de Java SE, Master 2 Data Sciences, INP-HB.">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  :root {
+    --fond: #f4f7f6;
+    --carte: #ffffff;
+    --texte: #1f2d2b;
+    --doux: #52635f;
+    --primaire: #00695c;
+    --primaire-vif: #00897b;
+    --accent: #ffb300;
+    --bord: #d5e3e0;
+    --ombre: 0 6px 24px rgba(0, 60, 50, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fond: #0f1a18;
+      --carte: #172522;
+      --texte: #e3eeeb;
+      --doux: #9fb4af;
+      --primaire: #4db6ac;
+      --primaire-vif: #80cbc4;
+      --bord: #2a3d39;
+      --ombre: 0 6px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--fond);
+    color: var(--texte);
+    line-height: 1.6;
+  }
+  a { color: var(--primaire); }
+
+  header {
+    background: linear-gradient(120deg, #00564b, #00897b 65%, #26a69a);
+    color: #fff;
+    padding: 56px 16px 64px;
+  }
+  .contenu { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .entete { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+  .entete img { width: 88px; height: 88px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+  h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.2; }
+  .accroche { margin: 6px 0 0; color: #d2efeb; font-size: 1.08rem; max-width: 640px; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .bouton {
+    display: inline-block; padding: 12px 22px; border-radius: 10px;
+    font-weight: 600; text-decoration: none; transition: transform .15s, box-shadow .15s;
+  }
+  .bouton:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.2); }
+  .principal { background: var(--accent); color: #2b2100; }
+  .secondaire { border: 2px solid rgba(255,255,255,.7); color: #fff; }
+  .prerequis { margin-top: 14px; font-size: .92rem; color: #d2efeb; }
+  .prerequis a { color: #fff; }
+
+  main { padding: 48px 0 24px; }
+  section { margin-bottom: 56px; }
+  h2 { font-size: 1.5rem; margin: 0 0 14px; color: var(--primaire); }
+  p { margin: 0 0 12px; }
+
+  .grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .carte {
+    background: var(--carte); border: 1px solid var(--bord); border-radius: 14px;
+    padding: 20px; box-shadow: var(--ombre);
+  }
+  .carte h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .carte p { margin: 0; color: var(--doux); font-size: .97rem; }
+
+  figure { margin: 0 0 28px; }
+  figure img {
+    width: 100%; height: auto; display: block; border-radius: 12px;
+    border: 1px solid var(--bord); box-shadow: var(--ombre);
+  }
+  figcaption { margin-top: 8px; font-size: .92rem; color: var(--doux); text-align: center; }
+
+  ol.etapes { padding-left: 1.3rem; margin: 0; }
+  ol.etapes li { margin-bottom: 10px; }
+  code {
+    font-family: Consolas, "Cascadia Mono", monospace; font-size: .92em;
+    background: var(--carte); border: 1px solid var(--bord); border-radius: 6px; padding: 1px 6px;
+  }
+  pre {
+    background: #10201d; color: #d8f0eb; padding: 14px 16px; border-radius: 10px;
+    overflow-x: auto; font-size: .92rem; margin: 8px 0 14px;
+  }
+  pre code { background: none; border: 0; padding: 0; color: inherit; }
+
+  footer {
+    border-top: 1px solid var(--bord); padding: 26px 0 40px;
+    color: var(--doux); font-size: .92rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenu">
+    <div class="entete">
+      <img src="images/logo.png" alt="Logo de l'application : une urne et un bulletin coché">
+      <div>
+        <h1>Élection législative de Nepalus</h1>
+        <p class="accroche">Une application pour simuler le dépouillement d'une élection législative,
+          département par département, et en analyser les résultats.</p>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="bouton principal" href="https://github.com/bebesamueldah6-svg/projet-java-election-nepalus-/releases/latest/download/election-nepalus.jar">Télécharger l'application (.jar)</a>
+      <a class="bouton secondaire" href="https://github.com/bebesamueldah6-svg/projet-java-election-nepalus-">Voir le code sur GitHub</a>
+    </div>
+    <p class="prerequis">Fonctionne sous Windows, Linux et macOS avec
+      <a href="https://adoptium.net/fr/temurin/releases/?version=21">Java 17 ou plus récent</a>.</p>
+  </div>
+</header>
+
+<main class="contenu">
+
+  <section>
+    <h2>Le projet</h2>
+    <p>Nepalus est un pays imaginaire découpé en départements. Chaque parti y présente un candidat
+      dans chaque département, et le scrutin est majoritaire à un tour : celui qui a le plus de voix
+      est élu. Deux règles s'ajoutent : pas de bulletin blanc, et jamais deux candidats à égalité
+      dans un même département.</p>
+    <p>Nous avons réalisé cette application dans le cadre du cours de Java SE du Prof. Bi Tra GOORE,
+      en Master 2 Data Sciences à l'INP-HB de Yamoussoukro.</p>
+  </section>
+
+  <section>
+    <h2>Ce que fait l'application</h2>
+    <div class="grille">
+      <div class="carte">
+        <h3>Enrôler départements et partis</h3>
+        <p>On les saisit un par un, ou on charge un jeu de démonstration de 12 départements et 5 partis.</p>
+      </div>
+      <div class="carte">
+        <h3>Simuler le vote</h3>
+        <p>Inscrits, votants et voix sont tirés au hasard, en respectant toutes les règles du scrutin.
+          On peut aussi saisir les résultats à la main.</p>
+      </div>
+      <div class="carte">
+        <h3>Analyser les résultats</h3>
+        <p>Parti gagnant et dernier de chaque département, participation, composition de l'Assemblée,
+          majorité absolue, statistiques et graphiques cliquables.</p>
+      </div>
+      <div class="carte">
+        <h3>Conserver les données</h3>
+        <p>Enregistrement dans des fichiers CSV, ou dans une base MySQL pour ceux qui ont XAMPP.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Aperçu</h2>
+    <figure>
+      <img src="images/departements.png" alt="Onglet Départements : tableau des départements avec inscrits, votants, participation et élu" loading="lazy">
+      <figcaption>La liste des départements, avec la participation et le parti élu.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/resultats.png" alt="Onglet Résultats : classement des candidats d'un département et diagramme circulaire" loading="lazy">
+      <figcaption>Le détail d'un département : classement des candidats et répartition des voix.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/analyses.png" alt="Onglet Analyses : sièges par parti et départements au-dessus de 50 % de participation" loading="lazy">
+      <figcaption>Le résultat national : sièges obtenus par chaque parti.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/filtre-parti.png" alt="Analyses filtrées sur les départements gagnés par un parti" loading="lazy">
+      <figcaption>Un clic sur un parti affiche les départements qu'il a gagnés.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Installer et lancer</h2>
+    <ol class="etapes">
+      <li>Si Java n'est pas encore installé, installez <a href="https://adoptium.net/fr/temurin/releases/?version=21">Java 21 (Temurin)</a>.
+        Pour vérifier, tapez <code>java -version</code> dans un terminal.</li>
+      <li>Téléchargez <a href="https://github.com/bebesamueldah6-svg/projet-java-election-nepalus-/releases/latest/download/election-nepalus.jar">election-nepalus.jar</a>.</li>
+      <li>Double-cliquez sur le fichier, ou lancez-le depuis un terminal ouvert dans le dossier de téléchargement :
+        <pre><code>java -jar election-nepalus.jar</code></pre>
+      </li>
+      <li>Dans l'application, choisissez <b>Fichier &gt; Données de démonstration</b>, puis
+        <b>Simulation &gt; Générer les résultats aléatoirement</b>.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  <div class="contenu">
+    Réalisé par DAH BEBE SAMUEL, BROU KOUAKOU CEPHAS et DJE KOFFI EUDES,
+    Master 2 Data Sciences, INP-HB Yamoussoukro, 2026.
+  </div>
+</footer>
+
+</body>
+</html>
