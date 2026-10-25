@@ -1,0 +1,524 @@
+/* ==========================================================================
+   Feuille de style de l'application Élection Nepalus
+   Couleur principale : sarcelle (#00796b) ; accent : ambre (#ffb300)
+   ========================================================================== */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-accent: #00897b;
+    -fx-focus-color: #00897b;
+    -fx-faint-focus-color: #00897b22;
+    -fx-selection-bar: #00897b;
+    -fx-selection-bar-non-focused: #80cbc4;
+    -fx-background-color: #f2f5f7;
+}
+
+/* ----------------------------------------------------------- écran d'accueil */
+
+.ecran-accueil {
+    -fx-background-color: linear-gradient(to bottom right, #00695c, #00897b 55%, #26a69a);
+    -fx-background-radius: 22;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 24, 0.2, 0, 6);
+}
+
+.accueil-titre {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.accueil-sous-titre {
+    -fx-font-size: 13px;
+    -fx-text-fill: #e0f2f1;
+}
+
+.accueil-auteurs {
+    -fx-font-size: 11px;
+    -fx-text-fill: #b2dfdb;
+    -fx-text-alignment: center;
+}
+
+.ecran-accueil .progress-bar > .bar {
+    -fx-background-color: #ffb300;
+    -fx-background-radius: 4;
+}
+
+.ecran-accueil .progress-bar > .track {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-background-radius: 4;
+}
+
+/* ----------------------------------------------------------- menus */
+
+.menu-bar {
+    -fx-background-color: #004d40;
+    -fx-padding: 2 6 2 6;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: #e0f2f1;
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: #00695c;
+}
+
+.context-menu {
+    -fx-background-radius: 6;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 3);
+}
+
+/* ----------------------------------------------------------- bandeau */
+
+.bandeau {
+    -fx-background-color: linear-gradient(to right, #00695c, #00897b 60%, #26a69a);
+    -fx-padding: 14 20 14 20;
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 0, 2);
+}
+
+.bandeau-textes {
+    -fx-alignment: center-left;
+    -fx-spacing: 2;
+}
+
+.bandeau-titre {
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.bandeau-sous-titre {
+    -fx-font-size: 12px;
+    -fx-text-fill: #b2dfdb;
+}
+
+.indicateurs {
+    -fx-alignment: center-right;
+}
+
+.indicateur {
+    -fx-background-color: rgba(255, 255, 255, 0.14);
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(255, 255, 255, 0.25);
+    -fx-border-radius: 12;
+    -fx-padding: 8 16 8 16;
+    -fx-min-width: 120;
+    -fx-alignment: center;
+}
+
+.indicateur-cliquable:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.28);
+    -fx-border-color: #ffb300;
+    -fx-translate-y: -2;
+}
+
+.indicateur-valeur {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.indicateur-titre {
+    -fx-font-size: 10px;
+    -fx-text-fill: #b2dfdb;
+}
+
+/* ----------------------------------------------------------- onglets */
+
+.tab-pane > .tab-header-area {
+    -fx-padding: 8 10 0 10;
+}
+
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: #f2f5f7;
+}
+
+.tab {
+    -fx-background-color: #dfe7ea;
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 6 16 6 16;
+}
+
+.tab:hover {
+    -fx-background-color: #cfe0e3;
+}
+
+.tab:selected {
+    -fx-background-color: white;
+    -fx-border-color: #00897b transparent transparent transparent;
+    -fx-border-width: 3 0 0 0;
+    -fx-border-radius: 8 8 0 0;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+.tab .tab-label {
+    -fx-text-fill: #455a64;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: #004d40;
+    -fx-font-weight: bold;
+}
+
+.tab-pane > .tab-content-area {
+    -fx-background-color: white;
+}
+
+.onglet {
+    -fx-background-color: white;
+}
+
+.titre {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #004d40;
+}
+
+.entete-onglet {
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 8 0;
+}
+
+.chiffre-cle {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #263238;
+}
+
+.elu {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00695c;
+    -fx-graphic-text-gap: 8;
+}
+
+/* ----------------------------------------------------------- tableaux et listes */
+
+.table-view, .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #dfe7ea;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e0f2f1;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent #b2dfdb transparent transparent;
+    -fx-size: 34;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #004d40;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-cell-size: 32;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #eef2f3 transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafcfc;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #e8f5f3;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #00897b;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+.table-row-cell.ligne-elu {
+    -fx-background-color: #fff8e1;
+    -fx-border-color: transparent transparent transparent #ffb300;
+    -fx-border-width: 0 0 0 4;
+}
+
+.table-row-cell.ligne-elu .table-cell {
+    -fx-font-weight: bold;
+}
+
+.table-cell {
+    -fx-alignment: center-left;
+}
+
+.table-column.nombre {
+    -fx-alignment: center-right;
+}
+
+.table-column.centre {
+    -fx-alignment: center;
+}
+
+.list-cell {
+    -fx-padding: 7 10 7 10;
+    -fx-graphic-text-gap: 10;
+    -fx-background-color: white;
+}
+
+.list-cell:hover {
+    -fx-background-color: #e8f5f3;
+}
+
+.list-cell:selected {
+    -fx-background-color: #00897b;
+    -fx-text-fill: white;
+}
+
+/* Pastille de parti (fond coloré défini par le code) */
+.pastille-parti {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-padding: 2 9 2 9;
+    -fx-background-radius: 10;
+    -fx-min-width: 46;
+    -fx-alignment: center;
+}
+
+/* État des départements */
+.etat-depouille {
+    -fx-text-fill: #2e7d32;
+    -fx-font-weight: bold;
+}
+
+.etat-attente {
+    -fx-text-fill: #90a4ae;
+    -fx-font-style: italic;
+}
+
+/* ----------------------------------------------------------- boutons et champs */
+
+.button {
+    -fx-background-color: #00897b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 7 16 7 16;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #00796b;
+}
+
+.button:pressed {
+    -fx-background-color: #004d40;
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
+}
+
+.dialog-pane .button {
+    -fx-min-width: 90;
+}
+
+.text-field, .password-field {
+    -fx-background-radius: 6;
+    -fx-border-color: #cfd8dc;
+    -fx-border-radius: 6;
+    -fx-background-color: white;
+    -fx-padding: 6 10 6 10;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #00897b;
+}
+
+.formulaire {
+    -fx-padding: 12 0 0 0;
+    -fx-alignment: center-left;
+}
+
+/* Astuces d'utilisation et filtre actif */
+.astuce {
+    -fx-text-fill: #78909c;
+    -fx-font-style: italic;
+    -fx-font-size: 12px;
+}
+
+.barre-filtre {
+    -fx-alignment: center-left;
+}
+
+.filtre-actif {
+    -fx-background-color: #fff8e1;
+    -fx-border-color: #ffb300;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 3 12 3 12;
+    -fx-text-fill: #8d6e00;
+    -fx-font-weight: bold;
+}
+
+/* Encadré de saisie placé au-dessus des tableaux */
+.carte-formulaire {
+    -fx-background-color: #e8f5f3;
+    -fx-background-radius: 10;
+    -fx-border-color: #b2dfdb;
+    -fx-border-radius: 10;
+    -fx-padding: 10 14 10 14;
+    -fx-alignment: center-left;
+}
+
+.carte-formulaire-titre {
+    -fx-font-weight: bold;
+    -fx-text-fill: #00695c;
+    -fx-padding: 0 8 0 0;
+}
+
+.button.bouton-secondaire {
+    -fx-background-color: white;
+    -fx-text-fill: #00796b;
+    -fx-border-color: #00897b;
+    -fx-border-radius: 6;
+}
+
+.button.bouton-secondaire:hover {
+    -fx-background-color: #e0f2f1;
+}
+
+/* ----------------------------------------------------------- panneaux d'analyse */
+
+.titled-pane {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.titled-pane > .title {
+    -fx-background-color: linear-gradient(to right, #00796b, #26a69a);
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 8 12 8 12;
+}
+
+.titled-pane > .title > .text {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Titres de section interactifs : clic pour replier / déplier */
+.titled-pane > .title {
+    -fx-cursor: hand;
+}
+
+.titled-pane > .title:hover {
+    -fx-background-color: linear-gradient(to right, #00897b, #4db6ac);
+}
+
+.titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: white;
+}
+
+.titled-pane:collapsed > .title {
+    -fx-background-radius: 8;
+    -fx-background-color: linear-gradient(to right, #546e7a, #78909c);
+}
+
+.titled-pane:collapsed > .title:hover {
+    -fx-background-color: linear-gradient(to right, #00796b, #26a69a);
+}
+
+.titled-pane > .content {
+    -fx-background-color: white;
+    -fx-border-color: #dfe7ea;
+    -fx-background-radius: 0 0 8 8;
+    -fx-border-radius: 0 0 8 8;
+    -fx-padding: 12;
+}
+
+.statistiques {
+    -fx-background-color: #f1f8f7;
+    -fx-background-radius: 8;
+    -fx-padding: 12 18 12 18;
+}
+
+.statistiques .valeur {
+    -fx-font-weight: bold;
+    -fx-text-fill: #004d40;
+}
+
+.slider .thumb {
+    -fx-background-color: #00897b;
+}
+
+/* ----------------------------------------------------------- graphiques */
+
+.chart {
+    -fx-padding: 6;
+}
+
+.chart-title {
+    -fx-font-size: 13px;
+    -fx-text-fill: #455a64;
+}
+
+.chart-plot-background {
+    -fx-background-color: #fafcfc;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #eceff1;
+}
+
+.histogramme .chart-bar {
+    -fx-bar-fill: #26a69a;
+    -fx-background-color: linear-gradient(to top, #00897b, #4db6ac);
+    -fx-background-radius: 4 4 0 0;
+}
+
+.chart-bar {
+    -fx-background-radius: 4 4 0 0;
+}
+
+.chart-pie {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.chart-pie-label {
+    -fx-font-size: 11px;
+    -fx-fill: #37474f;
+}
+
+/* ----------------------------------------------------------- barre d'état */
+
+.barre-etat {
+    -fx-padding: 5 12 5 12;
+    -fx-background-color: #eceff1;
+    -fx-border-color: #cfd8dc transparent transparent transparent;
+    -fx-alignment: center-left;
+}
+
+.stockage-actif {
+    -fx-text-fill: #00796b;
+    -fx-font-weight: bold;
+}
+
+.total-saisie {
+    -fx-font-weight: bold;
+    -fx-padding: 6 0 0 0;
+    -fx-text-fill: #00695c;
+}

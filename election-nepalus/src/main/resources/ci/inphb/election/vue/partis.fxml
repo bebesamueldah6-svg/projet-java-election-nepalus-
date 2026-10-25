@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ci.inphb.election.vue.ControleurPartis" styleClass="onglet">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <top>
+        <VBox spacing="10">
+            <HBox spacing="10" styleClass="entete-onglet">
+                <Pane fx:id="zoneTitre" HBox.hgrow="ALWAYS" minWidth="0">
+                    <HBox fx:id="titreDefilant" spacing="12" alignment="CENTER_LEFT">
+                        <Label text="Partis politiques enrôlés" styleClass="titre"/>
+                        <Label text="Chaque parti présente un candidat dans chaque département. Double-cliquez sur un parti pour voir où il l'a emporté."
+                               styleClass="astuce"/>
+                    </HBox>
+                </Pane>
+                <TextField fx:id="recherche" promptText="Rechercher (sigle ou nom)" prefColumnCount="20"/>
+            </HBox>
+            <!-- Formulaire d'enrôlement, toujours visible au-dessus du tableau -->
+            <HBox spacing="10" styleClass="carte-formulaire">
+                <Label text="Enrôler un parti" styleClass="carte-formulaire-titre"/>
+                <Label text="Sigle :"/>
+                <TextField fx:id="champSigle" prefColumnCount="6"/>
+                <Label text="Nom :"/>
+                <TextField fx:id="champNom" promptText="Nom du parti" HBox.hgrow="ALWAYS"/>
+                <Button text="Enrôler" defaultButton="true" onAction="#enroler"/>
+                <Button fx:id="boutonRetirer" text="Retirer la sélection" onAction="#retirer" styleClass="bouton-secondaire"/>
+            </HBox>
+            <padding><Insets bottom="10"/></padding>
+        </VBox>
+    </top>
+    <center>
+        <TableView fx:id="table">
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+            <placeholder><Label text="Aucun parti enrôlé"/></placeholder>
+            <columns>
+                <TableColumn fx:id="colSigle" text="Sigle" maxWidth="120"/>
+                <TableColumn fx:id="colNom" text="Nom"/>
+                <TableColumn fx:id="colVoix" text="Voix (national)" styleClass="nombre"/>
+                <TableColumn fx:id="colSieges" text="Sièges" styleClass="nombre" maxWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

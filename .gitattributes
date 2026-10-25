@@ -1,0 +1,3 @@
+# Le script mvnw doit garder des fins de ligne Unix pour fonctionner sous Linux et macOS
+election-nepalus/mvnw text eol=lf
+*.cmd text eol=crlf

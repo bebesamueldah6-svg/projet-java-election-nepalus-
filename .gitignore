@@ -1,0 +1,6 @@
+# Réglages propres à l'éditeur
+.vscode/
+.github/modernize/
+
+# Fichiers temporaires de Word
+~$*

@@ -1,0 +1,9 @@
+target/
+donnees/
+election.properties
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project

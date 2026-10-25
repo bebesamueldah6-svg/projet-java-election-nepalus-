@@ -1,0 +1,236 @@
+' Diagrammes de classes - Simulation d'une élection législative (Nepalus)
+' Deux diagrammes dans ce fichier :
+'   1. modele-metier  : interfaces, classes abstraites et classes concrètes du domaine
+'   2. architecture   : persistance (fichiers), simulation et interface JavaFX (MVC)
+' Aperçu dans VS Code : Alt+D (le curseur dans le diagramme voulu).
+' Export : clic droit > « PlantUML: Export Current Diagram » (PNG ou SVG).
+
+@startuml modele-metier
+title Modèle métier - Élection législative de Nepalus
+
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 13
+skinparam nodesep 40
+skinparam ranksep 50
+hide empty members
+
+interface Identifiable <<interface>> {
+  + getCode() : String
+}
+
+abstract class Entite {
+  - nom : String
+  # Entite(nom : String)
+  + getNom() : String
+  + {abstract} getLibelle() : String
+  + compareTo(autre : Entite) : int
+}
+
+class Departement {
+  - numero : int
+  - inscrits : int
+  - votants : int
+  + getLibelle() : String
+  + setParticipation(inscrits : int, votants : int)
+  + getTauxParticipation() : double
+  + getCandidats() : List<Candidat>
+  + getTotalVoix() : int
+  + isDepouille() : boolean
+  + reinitialiserResultats()
+}
+
+class PartiPolitique {
+  - sigle : String
+  + getSigle() : String
+  + getLibelle() : String
+}
+
+class Candidat {
+  - voix : int
+  + getVoix() : int
+  + setVoix(voix : int)
+  + getPourcentage() : double
+}
+
+interface RegleScrutin <<interface>> {
+  + valider(d : Departement) throws ElectionException
+  + designerElu(d : Departement) : Optional<Candidat>
+  + designerDernier(d : Departement) : Optional<Candidat>
+}
+
+class ScrutinMajoritaireUnTour
+
+class Election {
+  + enrolerDepartement(d : Departement)
+  + enrolerParti(p : PartiPolitique)
+  + enregistrerResultats(d, inscrits, votants, voix)
+  .. questions d'analyse ..
+  + departementsAvecParticipationAuMoins(seuil : double) : List<Departement>
+  + partiGagnant(d : Departement) : Optional<PartiPolitique>
+  + partiDernier(d : Departement) : Optional<PartiPolitique>
+  + departementsUnanimes() : List<Departement>
+  + tauxParticipationGeneral() : double
+  + siegesParParti() : Map<PartiPolitique, Long>
+  .. résultat national ..
+  + siegesPourMajoriteAbsolue() : int
+  + partiMajoritaire() : Optional<PartiPolitique>
+  + statistiquesParticipation() : StatistiquesParticipation
+}
+
+class StatistiquesParticipation {
+  + {static} calculer(d : Collection<Departement>) : StatistiquesParticipation
+  + getMoyenne() : double
+  + getMediane() : double
+  + getEcartType() : double
+  + histogramme(nombreClasses : int) : int[]
+}
+
+class ElectionException
+class Exception
+
+Identifiable <|.. Entite
+Identifiable <|.. Candidat
+Entite <|-- Departement
+Entite <|-- PartiPolitique
+RegleScrutin <|.. ScrutinMajoritaireUnTour
+Exception <|-- ElectionException
+
+Election "1" *-- "0..*" Departement : départements
+Election "1" o-- "0..*" PartiPolitique : partis
+Election --> "1" RegleScrutin : règle
+Departement "1" *-- "0..*" Candidat : candidats
+Candidat "0..*" --> "1" PartiPolitique : présenté par
+RegleScrutin ..> ElectionException : lève
+Election ..> StatistiquesParticipation : calcule
+
+note bottom of ScrutinMajoritaireUnTour
+  Scrutin majoritaire à un tour :
+  - pas de vote blanc (total des voix = votants)
+  - pas d'égalité de voix dans un département
+  - le candidat qui a le plus de voix est élu
+end note
+@enduml
+
+@startuml architecture
+title Architecture de l'application (persistance, simulation, interface JavaFX)
+
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 13
+skinparam packageStyle rectangle
+hide empty members
+
+package "persistance" {
+  interface StockageElection <<interface>> {
+    + getDescription() : String
+    + contientDesDonnees() : boolean
+    + charger() : Election
+    + sauvegarder(e : Election)
+  }
+  abstract class StockageAbstrait {
+    # {static} lire(partis, departements, resultats) : Election
+    # {static} ecrire(e, partis, departements, resultats)
+  }
+  class StockageFichiers {
+    - dossier : Path
+  }
+  class StockageBaseDeDonnees {
+    + testerConnexion() : String
+    ~ ouvrirConnexion() : Connection
+  }
+  class ParametresConnexion {
+    + getUrl() : String
+  }
+  class ConfigurationStockage {
+    - mode : Mode
+    + creerStockage() : StockageElection
+  }
+
+  interface "Depot<T extends Identifiable>" as Depot <<interface>> {
+    + chargerTout() : List<T>
+    + sauvegarderTout(elements : Collection<? extends T>)
+  }
+  abstract class "DepotFichierCsv<T extends Identifiable>" as DepotFichierCsv {
+    - fichier : Path
+    # {abstract} versChamps(e : T) : String[]
+    # {abstract} depuisChamps(champs : String[]) : T
+  }
+  abstract class "DepotJdbc<T extends Identifiable>" as DepotJdbc {
+    - connexion : Connection
+    # {abstract} requeteInsertion() : String
+    # {abstract} depuisLigne(ligne : ResultSet) : T
+    # {abstract} renseigner(requete : PreparedStatement, e : T)
+  }
+  class DepotDepartements
+  class DepotPartis
+  class DepotResultats
+  class DepotJdbcDepartements
+  class DepotJdbcPartis
+  class DepotJdbcResultats
+  class PersistanceException
+}
+
+package "simulation" {
+  class GenerateurResultats {
+    + generer(e : Election, borneMaxInscrits : int)
+    ~ repartirVoix(total : int, n : int) : int[]
+  }
+  class DonneesDemo {
+    + {static} creer() : Election
+  }
+}
+
+package "vue (JavaFX - MVC)" {
+  class ApplicationElection
+  class ContexteApplication {
+    - revision : IntegerProperty
+    - modifie : BooleanProperty
+    + notifierModification()
+  }
+  abstract class ControleurOnglet {
+    + initialiserContexte(c : ContexteApplication)
+    # {abstract} rafraichir()
+  }
+  class ControleurPrincipal
+  class ControleurDepartements
+  class ControleurPartis
+  class ControleurResultats
+  class ControleurAnalyses
+  class DialogueConnexion
+}
+
+class Election <<modèle métier>>
+
+StockageElection <|.. StockageAbstrait
+StockageAbstrait <|-- StockageFichiers
+StockageAbstrait <|-- StockageBaseDeDonnees
+StockageBaseDeDonnees --> ParametresConnexion
+ConfigurationStockage ..> StockageElection : crée
+StockageAbstrait ..> Depot : utilise
+StockageAbstrait ..> Election : charge / sauvegarde
+StockageElection ..> PersistanceException : lève
+
+Depot <|.. DepotFichierCsv
+Depot <|.. DepotJdbc
+DepotFichierCsv <|-- DepotDepartements : T = Departement
+DepotFichierCsv <|-- DepotPartis : T = PartiPolitique
+DepotFichierCsv <|-- DepotResultats : T = Candidat
+DepotJdbc <|-- DepotJdbcDepartements : T = Departement
+DepotJdbc <|-- DepotJdbcPartis : T = PartiPolitique
+DepotJdbc <|-- DepotJdbcResultats : T = Candidat
+StockageFichiers ..> DepotFichierCsv
+StockageBaseDeDonnees ..> DepotJdbc
+
+GenerateurResultats ..> Election : génère les résultats
+DonneesDemo ..> Election : crée
+
+ApplicationElection ..> ControleurPrincipal : charge principale.fxml
+ControleurOnglet <|-- ControleurDepartements
+ControleurOnglet <|-- ControleurPartis
+ControleurOnglet <|-- ControleurResultats
+ControleurOnglet <|-- ControleurAnalyses
+ControleurPrincipal *-- "4" ControleurOnglet : onglets (fx:include)
+ControleurOnglet --> ContexteApplication
+ContexteApplication --> Election
+ContexteApplication --> StockageElection : stockage actif
+ControleurPrincipal ..> DialogueConnexion
+@enduml

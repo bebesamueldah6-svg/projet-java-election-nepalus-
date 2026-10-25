@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ci.inphb.election.vue.ControleurPrincipal">
+    <fx:define>
+        <ToggleGroup fx:id="groupeStockage"/>
+    </fx:define>
+    <top>
+      <VBox>
+        <MenuBar fx:id="menus">
+            <Menu text="_Fichier">
+                <MenuItem text="Nouvelle élection" onAction="#nouvelleElection"/>
+                <MenuItem text="Données de démonstration" onAction="#chargerDemo"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Enregistrer" onAction="#enregistrerMenu">
+                    <accelerator>
+                        <KeyCodeCombination code="S" control="DOWN" shift="UP" alt="UP" meta="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem text="Recharger les données enregistrées" onAction="#recharger"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Quitter" onAction="#quitter"/>
+            </Menu>
+            <Menu text="S_tockage">
+                <RadioMenuItem fx:id="choixFichiers" text="Fichiers CSV (dossier « donnees »)"
+                               toggleGroup="$groupeStockage" onAction="#choisirFichiers"/>
+                <RadioMenuItem fx:id="choixBase" text="Base de données MySQL"
+                               toggleGroup="$groupeStockage" onAction="#choisirBase"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Paramètres de connexion MySQL..." onAction="#parametresConnexion"/>
+            </Menu>
+            <Menu text="_Simulation">
+                <MenuItem text="Générer les résultats aléatoirement..." onAction="#genererResultats"/>
+                <MenuItem text="Effacer tous les résultats" onAction="#effacerResultats"/>
+            </Menu>
+            <Menu text="_Aide">
+                <MenuItem text="À propos" onAction="#aPropos"/>
+            </Menu>
+        </MenuBar>
+        <!-- Bandeau : logo, titre et indicateurs animés (ajoutés par le contrôleur) -->
+        <HBox styleClass="bandeau" spacing="16">
+            <ImageView fitWidth="58" fitHeight="58" preserveRatio="true" smooth="true">
+                <image><Image url="@images/logo-128.png"/></image>
+            </ImageView>
+            <!-- Titres défilants : la zone occupe la place libre, le contrôleur anime son contenu -->
+            <Pane fx:id="zoneTitres" HBox.hgrow="ALWAYS" minWidth="0">
+                <VBox fx:id="titres" styleClass="bandeau-textes">
+                    <Label text="Élection législative de Nepalus" styleClass="bandeau-titre"/>
+                    <Label text="Scrutin majoritaire à un tour, un député par département" styleClass="bandeau-sous-titre"/>
+                </VBox>
+            </Pane>
+            <HBox fx:id="indicateurs" spacing="10" styleClass="indicateurs"/>
+        </HBox>
+      </VBox>
+    </top>
+    <center>
+        <TabPane fx:id="onglets" tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Départements">
+                <fx:include fx:id="departements" source="departements.fxml"/>
+            </Tab>
+            <Tab text="Partis politiques">
+                <fx:include fx:id="partis" source="partis.fxml"/>
+            </Tab>
+            <Tab text="Résultats par département">
+                <fx:include fx:id="resultats" source="resultats.fxml"/>
+            </Tab>
+            <Tab text="Analyses">
+                <fx:include fx:id="analyses" source="analyses.fxml"/>
+            </Tab>
+        </TabPane>
+    </center>
+    <bottom>
+        <HBox styleClass="barre-etat" spacing="12">
+            <Label fx:id="etat"/>
+            <ProgressBar fx:id="progression" prefWidth="140" visible="false"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="stockageActif" styleClass="stockage-actif"/>
+        </HBox>
+    </bottom>
+</BorderPane>
